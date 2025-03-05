@@ -16,4 +16,4 @@ class Contract(Base):
         server_default=func.current_timestamp(),
     )
 
-    document_list: Mapped[list['Document']] = relationship(back_populates='contracts')
+    document_list: Mapped[list['Document']] = relationship(back_populates='contracts', cascade='all, delete-orphan')

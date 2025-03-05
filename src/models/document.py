@@ -14,5 +14,9 @@ class Document(Base):
         TIMESTAMP(timezone=True),
         server_default=func.current_timestamp(),
     )
-    user_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), default=uuid.uuid4)
-    contract_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('contracts.id'), default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), default=uuid.uuid4
+    )
+    contract_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey('contracts.id', ondelete='CASCADE'), default=uuid.uuid4
+    )
