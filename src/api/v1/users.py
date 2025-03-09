@@ -4,13 +4,12 @@ from fastapi import APIRouter, Depends, status
 from src.services.users import UserService
 from src.schemas.user import BaseUser, BaseUserList, UserCreatePayload, UserUpdatePayload
 
-router = APIRouter(prefix="/user", tags=["user"])
+router = APIRouter(prefix="/user")
 
 
 @router.get("/", response_model=BaseUserList)
 async def get_list(
     user_service: UserService = Depends()
-    
 ):
     return await user_service.get_user_list()
 
