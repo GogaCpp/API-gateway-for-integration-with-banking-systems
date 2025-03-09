@@ -24,7 +24,13 @@ async def login(
             detail="Неверный логин или пароль",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = await create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=30))
+    access_token = await create_access_token(
+        data={
+            "sub": str(user.id),
+            "role": user.user_type_id
+        },
+        expires_delta=timedelta(minutes=30)
+    )
     return {"access_token": access_token, "token_type": "bearer"}
 
 

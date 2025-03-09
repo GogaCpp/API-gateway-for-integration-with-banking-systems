@@ -8,31 +8,38 @@ from src.schemas.contract import (
 )
 from src.services.contract import ContractService
 from src.services.dc_association import DC_ConnectService
-
+from src.services.jwt import permission_checker
+from src.config import oauth2_scheme
 
 router = APIRouter(prefix="/cm", tags=["CM"])
 
 
 @router.get("/", response_model=BaseContractList)
 async def get_list(
-    contract_service: ContractService = Depends()
+    contract_service: ContractService = Depends(),
+    token: str = Depends(oauth2_scheme)
 ):
+    await permission_checker(token, 3)
     return await contract_service.get_contract_list()
 
 
 @router.get("/{contract_id}", response_model=BaseContract)
 async def get_contract(
     contract_id: uuid.UUID,
-    contract_service: ContractService = Depends()
+    contract_service: ContractService = Depends(),
+    token: str = Depends(oauth2_scheme)
 ):
+    await permission_checker(token, 3)
     return await contract_service.get_contract_by_id(contract_id)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=BaseContract)
 async def create_contract(
     contract: ContractCreatePayload,
-    contract_service: ContractService = Depends()
+    contract_service: ContractService = Depends(),
+    token: str = Depends(oauth2_scheme)
 ):
+    await permission_checker(token, 3)
     return await contract_service.create_contract(contract)
 
 
@@ -40,22 +47,38 @@ async def create_contract(
 async def update_contract(
     contract_id: uuid.UUID,
     contract: ContractUpdatePayload,
-    contract_service: ContractService = Depends()
+    contract_service: ContractService = Depends(),
+    token: str = Depends(oauth2_scheme)
 ):
+    await permission_checker(token, 3)
     return await contract_service.update_contract(contract_id, contract)
 
 
 @router.delete("/{contract_id}")
 async def delete_contract(
     contract_id: uuid.UUID,
-    contract_service: ContractService = Depends()
+    contract_service: ContractService = Depends(),
+    token: str = Depends(oauth2_scheme)
 ):
+    await permission_checker(token, 3)
     return await contract_service.delete_contract(contract_id)
 
 
 @router.post("/connect_document")
 async def connect_document_to_contract(
     data: ConnectContractDocumentPayload,
-    connect_service: DC_ConnectService = Depends()
+    connect_service: DC_ConnectService = Depends(),
+    token: str = Depends(oauth2_scheme)
 ):
+    await permission_checker(token, 3)
     return await connect_service.connect_to_document(data)
+
+
+@router.delete("/delete_association")
+async def delete_association(
+    data: ConnectContractDocumentPayload,
+    connect_service: DC_ConnectService = Depends(),
+    token: str = Depends(oauth2_scheme)
+):
+    await permission_checker(token, 3)
+    return await connect_service.delete_association(data)

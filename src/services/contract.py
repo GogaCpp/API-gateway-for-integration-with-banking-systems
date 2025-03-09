@@ -24,6 +24,7 @@ class ContractService():
             )
         )
         contract = (await self._session.execute(query)).scalars().first()
+
         return contract
 
     async def get_contract_list(self):
@@ -31,6 +32,7 @@ class ContractService():
             select(Contract)
         )
         contracts = (await self._session.execute(query)).scalars().all()
+        contracts
         return {"contract_list": contracts}
 
     async def create_contract(self, contract: ContractCreatePayload):

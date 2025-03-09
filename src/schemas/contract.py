@@ -41,4 +41,3 @@ class BaseContractList(BaseModel):
 class ConnectContractDocumentPayload(BaseModel):
     contract_id: uuid.UUID
     document_id: uuid.UUID
-    

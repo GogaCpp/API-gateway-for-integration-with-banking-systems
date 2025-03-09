@@ -1,4 +1,5 @@
 from datetime import timedelta
+from fastapi.security import OAuth2PasswordBearer
 from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
@@ -28,3 +29,6 @@ settings = Settings(
     _env_file=".env",
     _env_file_encoding="utf-8"
 )
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
