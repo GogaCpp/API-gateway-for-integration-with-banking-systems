@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     model_config = ConfigDict(extra='ignore')
 
-    # Database
+    # Postgre
     db_host: str
     db_port: int
     db_user: str
@@ -15,6 +15,16 @@ class Settings(BaseSettings):
     db_name: str
     algorithm: str
     secret_key: str
+
+    # Minio
+    s3_service_name: str
+    s3_url: str
+    s3_access_key: str
+    s3_secret_key: str
+    s3_bucket_name: str
+    s3_region: str
+
+    base_s3_path: str
 
     @property
     def db_url(self):
