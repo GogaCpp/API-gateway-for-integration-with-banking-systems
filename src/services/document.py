@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, status
 
 from src.database import get_async_session
-from src.models.document import Document
+from src.models.document_and_contract import Document
 from src.schemas.document import DocumentCreatePayload, DocumentUpdatePayload
 
 
@@ -37,7 +37,7 @@ class DocumentService():
 
         login = (await self._session.execute(select(Document).where(Document.name == document.name))).scalar()
         if login:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detatil="Document alredy exist")
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Document alredy exist")
 
         document = Document(
             name=document.name,

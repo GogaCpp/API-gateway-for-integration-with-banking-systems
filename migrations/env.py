@@ -10,7 +10,7 @@ from alembic import context
 from src import database
 from src.config import settings
 from src.models import (
-    document, user_type, user
+    document_and_contract, user_type, user
 )
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

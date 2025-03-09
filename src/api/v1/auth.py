@@ -24,11 +24,10 @@ async def login(
             detail="Неверный логин или пароль",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = await create_access_token(data={"sub": user.name}, expires_delta=timedelta(minutes=30))
+    access_token = await create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=30))
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-# Защищённый маршрут
 @router.get("/protected/")
 async def protected_route(token: str = Depends(oauth2_scheme)):
     payload = await decode_token(token)
@@ -37,8 +36,3 @@ async def protected_route(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=401, detail="Неверный токен или срок действия истёк")
 
     return {"msg": f"Добро пожаловать!{payload}"}
-
-
-@router.get("/")
-async def read_root():
-    return {"message": "Добро пожаловать в наше приложение!"}

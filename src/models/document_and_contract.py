@@ -40,13 +40,13 @@ class Document(Base):
         UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), default=uuid.uuid4
     )
 
-    document_associations: Mapped[list["DocumentContractAssociation"]] = relationship(
-        back_populates="contract",
+    contract_associations: Mapped[list["DocumentContractAssociation"]] = relationship(
+        back_populates="document",
     )
 
     @property
-    def documents(self):
-        return [association.document for association in self.document_associations]
+    def contracts(self):
+        return [association.contract for association in self.contract_associations]
 
 
 class Contract(Base):
@@ -59,11 +59,14 @@ class Contract(Base):
         TIMESTAMP(timezone=True),
         server_default=func.current_timestamp(),
     )
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), default=uuid.uuid4
+    )
 
-    contract_associations: Mapped[list["DocumentContractAssociation"]] = relationship(
-        back_populates="document",
+    document_associations: Mapped[list["DocumentContractAssociation"]] = relationship(
+        back_populates="contract",
     )
 
     @property
-    def contracts(self):
-        return [association.contract for association in self.contract_associations]
+    def documents(self):
+        return [association.document for association in self.document_associations]
