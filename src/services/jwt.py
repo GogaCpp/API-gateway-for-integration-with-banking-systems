@@ -1,4 +1,3 @@
-from typing import Any
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from src.config import settings

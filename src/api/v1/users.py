@@ -32,9 +32,7 @@ async def get_user(
 async def create_user(
     user: UserCreatePayload,
     user_service: UserService = Depends(),
-    token: str = Depends(oauth2_scheme)
 ):
-    await permission_checker(token, 1)
     return await user_service.create_user(user)
 
 

@@ -28,4 +28,3 @@ async def get_s3_client():
         aws_secret_access_key=settings.s3_secret_key,
     ) as s3_client:
         yield s3_client
-
